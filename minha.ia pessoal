@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>IA Completa em Português</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #0f172a;
+  color: white;
+  margin: 0;
+}
+h2 {
+  text-align: center;
+}
+#chat {
+  height: 80vh;
+  overflow-y: auto;
+  padding: 10px;
+}
+#inputArea {
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+input {
+  flex: 1;
+  padding: 10px;
+  font-size: 16px;
+}
+button {
+  padding: 10px;
+  background: #38bdf8;
+  border: none;
+  cursor: pointer;
+}
+.user { color: #facc15; }
+.bot { color: #38bdf8; }
+</style>
+</head>
+
+<body>
+
+<h2>🤖 IA Completa em Português</h2>
+<div id="chat"></div>
+
+<div id="inputArea">
+<input id="userInput" placeholder="Digite sua pergunta ou conta..." />
+<button onclick="send()">Enviar</button>
+</div>
+
+<script>
+const chat = document.getElementById("chat");
+
+// Dicionário básico
+const dicionario = {
+  "amor": "Sentimento de carinho, afeto e cuidado.",
+  "vida": "Conjunto de características dos seres vivos.",
+  "computador": "Máquina eletrônica que processa informações.",
+  "internet": "Rede mundial de computadores.",
+  "matemática": "Ciência dos números e cálculos.",
+  "história": "Estudo dos acontecimentos do passado.",
+  "geografia": "Estudo da Terra e dos lugares."
+};
+
+// Perguntas e respostas
+const conhecimento = {
+  "capital do brasil": "A capital do Brasil é Brasília.",
+  "quem descobriu o brasil": "Pedro Álvares Cabral em 1500.",
+  "quantos estados tem o brasil": "O Brasil tem 26 estados e 1 Distrito Federal.",
+  "maior planeta": "O maior planeta é Júpiter.",
+  "menor planeta": "O menor planeta é Mercúrio.",
+  "quem foi jesus": "Figura religiosa central do cristianismo.",
+  "o que é ia": "IA é Inteligência Artificial, programa que simula inteligência humana."
+};
+
+function send() {
+  let input = document.getElementById("userInput").value.toLowerCase();
+  document.getElementById("userInput").value = "";
+
+  chat.innerHTML += `<div class="user">Você: ${input}</div>`;
+  let resposta = processar(input);
+  chat.innerHTML += `<div class="bot">IA: ${resposta}</div>`;
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function processar(msg) {
+
+  // Cumprimentos
+  if (msg.includes("oi") || msg.includes("olá") || msg.includes("ola")) {
+    return "Olá! Sou sua IA em português. Posso responder perguntas e fazer cálculos.";
+  }
+
+  // Tabuada
+  if (msg.startsWith("tabuada")) {
+    let n = parseInt(msg.replace("tabuada","").trim());
+    if (isNaN(n)) return "Digite assim: tabuada 5";
+    let r = "";
+    for (let i=1;i<=10;i++) {
+      r += `${n} x ${i} = ${n*i} | `;
+    }
+    return r;
+  }
+
+  // Raiz quadrada
+  if (msg.startsWith("raiz")) {
+    let n = parseFloat(msg.replace("raiz","").trim());
+    if (isNaN(n)) return "Digite: raiz 16";
+    return "Resultado: " + Math.sqrt(n);
+  }
+
+  // Potência
+  if (msg.includes("^")) {
+    let p = msg.split("^");
+    return "Resultado: " + Math.pow(p[0], p[1]);
+  }
+
+  // Porcentagem
+  if (msg.includes("%")) {
+    let n = parseFloat(msg.replace("%",""));
+    return `${n}% = ${n/100}`;
+  }
+
+  // Matemática geral
+  if (msg.match(/[0-9+\-*/().]/)) {
+    try {
+      return "Resultado: " + eval(msg);
+    } catch {
+      return "Erro ao calcular.";
+    }
+  }
+
+  // Dicionário
+  if (msg.startsWith("defina")) {
+    let palavra = msg.replace("defina","").trim();
+    return dicionario[palavra] || "Não tenho essa palavra no dicionário.";
+  }
+
+  // Conhecimento
+  if (conhecimento[msg]) return conhecimento[msg];
+
+  return "Ainda estou aprendendo. Pergunte matemática, tabuada, história, geografia ou defina uma palavra.";
+}
+
+/* ==========================
+   ÁREA PARA VOCÊ EXPANDIR
+   (adicione novos códigos aqui sem quebrar o resto)
+========================== */
+
+function novaFuncao() {
+  // Aqui você pode colocar:
+  // pesquisa na internet
+  // memória
+  // agenda
+  // login
+  // API de IA real
+}
+
+</script>
+
+</body>
+</html>
